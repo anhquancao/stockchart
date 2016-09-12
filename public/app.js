@@ -7,7 +7,33 @@ var app = angular.module('app', [])
         $scope.error = '';
         $scope.dates = [];
         var ctx = $("#stockChart");
+        var socket = io.connect('http://localhost:3000');
+        socket.on('stockchart', function (data) {
+            console.log(data);
+        });
+        socket.on('deleteStock', function (stock) {
+            console.log(stock);
+            var index = $scope.stocks.map(function (stock) {
+                return stock.code;
+            }).indexOf(stock.code);
+            if (index > -1) {
+                $scope.stocks.splice(index, 1);
+                $scope.$apply();
+            }
 
+            updateChart($scope.dates, $scope.stocks);
+        });
+
+        socket.on('addStock', function (stock) {
+            console.log("stock: " + stock);
+            $scope.stocks.push({
+                code: stock.data.code,
+                name: stock.data.name,
+                data: stock.data.data
+            });
+            $scope.$apply();
+            updateChart($scope.dates, $scope.stocks);
+        });
         function getRandomColor() {
             var letters = '0123456789ABCDEF';
             var color = '#';
@@ -78,12 +104,8 @@ var app = angular.module('app', [])
                         if (data.status == 0) {
                             $scope.error = data.message;
                         } else if (data.status == 1) {
-                            $scope.stocks.push({
-                                code: data.data.code,
-                                name: data.data.name,
-                                data: data.data.data
-                            });
-                            updateChart($scope.dates, $scope.stocks);
+
+
                             $scope.code = "";
                         } else {
                             $scope.error = "Unknow Error";
