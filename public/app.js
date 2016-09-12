@@ -54,6 +54,18 @@ var app = angular.module('app', [])
                 }
             })
         };
+        $scope.remove = function (stock) {
+            $http.delete('/api/stock/' + stock.code)
+                .then(function (res) {
+                });
+            var index = $scope.stocks.map(function (stock) {
+                return stock.code;
+            }).indexOf(stock.code);
+            if (index > -1) {
+                $scope.stocks.splice(index, 1);
+            }
+            updateChart($scope.dates, $scope.stocks);
+        };
         $scope.addStock = function () {
             $scope.error = "";
             if ($scope.code == "") {

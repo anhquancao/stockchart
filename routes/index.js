@@ -10,6 +10,26 @@ function formatData(data) {
 }
 
 /* GET home page. */
+router.delete('/stock/:code', function (req, res) {
+    var code = req.params.code.toUpperCase();
+    Stock.findOne({code: code}, function (err, stock) {
+        if (err) console.log(err);
+        if (stock) {
+            stock.remove(function (err) {
+                if (err) {
+                    console.log(err);
+                    res.json({status: 0})
+                } else {
+                    res.json({status: 1});
+                }
+            });
+
+        }else{
+            res.json({status: 0});
+        }
+    })
+});
+
 router.get('/stocks', function (req, res) {
     Stock.find()
         .exec(function (err, stocks) {

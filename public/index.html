@@ -19,6 +19,9 @@
                 <li ng-repeat="stock in stocks" class="list-group-item">
                     <h5>{{stock.code}}</h5>
                     <p>{{stock.name}}</p>
+                    <p>
+                        <button class="btn btn-danger" ng-click="remove(stock)">delete</button>
+                    </p>
                 </li>
                 <li class="list-group-item">
                     <p>
