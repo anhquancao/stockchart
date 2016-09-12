@@ -7,7 +7,7 @@ var app = angular.module('app', [])
         $scope.error = '';
         $scope.dates = [];
         var ctx = $("#stockChart");
-        var socket = io.connect('http://localhost:3000');
+        var socket = io.connect('https://rocky-dawn-91601.herokuapp.com');
         socket.on('stockchart', function (data) {
             console.log(data);
         });
