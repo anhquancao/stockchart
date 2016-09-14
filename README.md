@@ -1,5 +1,6 @@
 #FCC Chart The Stock Market
 This is an freecodecamp.com project built with MEAN stack and socket.io. 
+The stock data are from quandl api.
 
 #User Stories
 - I can view a graph displaying the recent trend lines for each added stock.
